@@ -1,15 +1,15 @@
-package com.icsd.boot.IcsdWallet.response;
+package com.icsd.boot.IcsdWallet.dto.response;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.http.HttpStatus;
 
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ApiResponse {
+@Getter
+@Setter
+@Data
+public class CustomerResponse {
 
     private String message;
     private Object data;
