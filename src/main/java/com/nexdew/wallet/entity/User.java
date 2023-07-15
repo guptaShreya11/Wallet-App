@@ -42,4 +42,6 @@ public class User extends BaseEntity<Long> implements Serializable {
   @Enumerated(EnumType.STRING)
   private List<UserRole> appUserRoles;
 
+  @OneToMany(cascade = CascadeType.ALL)
+  private List<Account> accounts;
 }

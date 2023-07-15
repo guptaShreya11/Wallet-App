@@ -35,7 +35,7 @@ public class WalletApplication implements CommandLineRunner {
     admin.setUsername("admin");
     admin.setPassword("admin@123");
     admin.setEmail("admin@email.com");
-    admin.setUserRoles(new ArrayList<UserRole>(Arrays.asList(UserRole.ROLE_ADMIN)));
+    admin.setAppUserRoles(new ArrayList<UserRole>(Arrays.asList(UserRole.ROLE_ADMIN)));
 
     authService.signUp(admin);
   }

@@ -1,19 +1,21 @@
 package com.nexdew.wallet.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
+import com.nexdew.wallet.constants.ApiConstant;
+import com.nexdew.wallet.dto.request.UserRequest;
+import com.nexdew.wallet.dto.response.ApiResponse;
 import com.nexdew.wallet.dto.response.UserResponseDTO;
 import com.nexdew.wallet.service.IUserService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/users")
@@ -24,6 +26,13 @@ public class UserController {
     private final IUserService userService;
     @Autowired
     private final ModelMapper modelMapper;
+
+
+//    @PostMapping("/create")
+//    public ResponseEntity<ApiResponse> createCustomer(@Valid @RequestBody UserRequest request){
+//        return  ResponseEntity.ok(new ApiResponse(ApiConstant.USER_CREATED, userService.createUser(request), HttpStatus.CREATED));
+//    }
+
 
     @DeleteMapping(value = "/{username}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")

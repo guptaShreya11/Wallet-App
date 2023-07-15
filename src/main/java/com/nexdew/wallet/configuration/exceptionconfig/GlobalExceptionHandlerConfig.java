@@ -47,7 +47,7 @@ public class GlobalExceptionHandlerConfig {
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<ApiResponse> handleDataIntegrity(DataIntegrityViolationException e) {
-        return new ResponseEntity<>(new ApiResponse("All keys not present", null, HttpStatus.OK), HttpStatus.OK);
+        return new ResponseEntity<>(new ApiResponse(e.getMessage(), null, HttpStatus.OK), HttpStatus.OK);
     }
 
     @ExceptionHandler(RequestRejectedException.class)

@@ -1,5 +1,8 @@
 package com.nexdew.wallet.controller;
 
+import com.nexdew.wallet.constants.ApiConstant;
+import com.nexdew.wallet.dto.UserDto;
+import com.nexdew.wallet.dto.request.UserRequest;
 import com.nexdew.wallet.dto.response.ApiResponse;
 import com.nexdew.wallet.dto.request.AuthRequest;
 import com.nexdew.wallet.entity.User;
@@ -27,9 +30,16 @@ public class AuthController {
         return new ResponseEntity<ApiResponse>(new ApiResponse(token, null, HttpStatus.OK), HttpStatus.OK);
     }
 
-    @PostMapping(value = "sign-up")
-    public ResponseEntity<ApiResponse> signUp(@RequestBody @Valid User appUser) {
-        String response = authService.signUp(appUser);
-        return new ResponseEntity<>(new ApiResponse(response, null, HttpStatus.OK), HttpStatus.OK);
+//    @PostMapping(value = "sign-up")
+//    public ResponseEntity<ApiResponse> signUp(@RequestBody @Valid User appUser) {
+//        String response = authService.signUp(appUser);
+//        return new ResponseEntity<>(new ApiResponse(response, null, HttpStatus.OK), HttpStatus.OK);
+//    }
+
+    @PostMapping(value = "/sign-up")
+        public ResponseEntity<ApiResponse> signUp(@RequestBody @Valid UserRequest userRequest) {
+        UserDto userDto = authService.signUp(userRequest);
+        return new ResponseEntity<>(new ApiResponse(ApiConstant.USER_CREATED, userDto, HttpStatus.OK), HttpStatus.OK);
     }
+
 }
