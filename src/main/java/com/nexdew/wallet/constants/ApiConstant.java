@@ -9,4 +9,6 @@ public class ApiConstant {
     public static final String USER_CREATION_FAILED = "Failed to create user.";
     public static final String USER_CREATED = "User created";
     public static final String DUPLICATE_USER = "User already exist";
+
+    public static final String ACCOUNT_CREATED="Account created";
 }

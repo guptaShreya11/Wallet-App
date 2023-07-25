@@ -43,4 +43,8 @@ public class UserRequest {
 
     private List<UserRole> appUserRoles;
 
+    private  String description;
+    private double openingBalance;
+    private String accType;
+
 }

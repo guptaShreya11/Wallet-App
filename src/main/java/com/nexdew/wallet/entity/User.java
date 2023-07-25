@@ -21,7 +21,7 @@ import javax.validation.constraints.Size;
 public class User extends BaseEntity<Long> implements Serializable {
 
   @Size(min = 4, max = 255, message = "Minimum username length: 4 characters")
-  @Column(unique = true, nullable = false)
+  @Column(unique = true, nullable = false,name = "username")
   private String username;
 
   @Column(unique = true, nullable = false)
@@ -44,4 +44,9 @@ public class User extends BaseEntity<Long> implements Serializable {
 
   @OneToMany(cascade = CascadeType.ALL)
   private List<Account> accounts;
+
+  public User(String username){
+    this.username=username;
+  }
+
 }
