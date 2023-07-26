@@ -10,6 +10,7 @@ import com.nexdew.wallet.service.IAuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,7 +38,8 @@ public class AuthController {
 //    }
 
     @PostMapping(value = "/sign-up")
-        public ResponseEntity<ApiResponse> signUp(@RequestBody @Valid UserRequest userRequest) {
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER') ")
+    public ResponseEntity<ApiResponse> signUp(@RequestBody @Valid UserRequest userRequest) {
         UserDto userDto = authService.signUp(userRequest);
         return new ResponseEntity<>(new ApiResponse(ApiConstant.USER_CREATED, userDto, HttpStatus.OK), HttpStatus.OK);
     }

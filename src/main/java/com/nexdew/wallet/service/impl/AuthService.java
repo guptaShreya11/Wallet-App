@@ -8,7 +8,7 @@ import com.nexdew.wallet.dto.request.AuthRequest;
 import com.nexdew.wallet.dto.request.UserRequest;
 import com.nexdew.wallet.entity.Account;
 import com.nexdew.wallet.entity.User;
-import com.nexdew.wallet.repository.BankRepository;
+import com.nexdew.wallet.repository.AccountRepository;
 import com.nexdew.wallet.repository.UserRepository;
 import com.nexdew.wallet.security.JwtTokenProvider;
 import com.nexdew.wallet.service.IAuthService;
@@ -20,7 +20,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigInteger;
 import java.util.*;
 
 import static com.nexdew.wallet.constants.ApiConstant.*;
@@ -34,7 +33,9 @@ public class AuthService implements IAuthService {
     private final AuthenticationManager authenticationManager;
 
     private final ModelMapper mapper;
-    private final BankRepository bankRepository;
+    private final AccountRepository accountRepository;
+
+    private final String initialCustomerAccountNumber;
 
     @Override
     public String signIn(AuthRequest authRequest) {
@@ -71,34 +72,23 @@ public class AuthService implements IAuthService {
                     .password(passwordEncoder.encode(userRequest.getPassword()))
                     .build();
 
-//            Random random = new Random();
-//            int accountNumber;
-//            String accNo;
-//            String acc[]=new String[10];
-//            for (int i=0;i<10;i++){
-//                accountNumber=random.nextInt(10);
-//                acc[i]=Integer.toString(accountNumber);
-//            }
-//            if(acc[0].equals(0)){
-//                accNo = ((acc[0]+1) + acc[1] + acc[2] + acc[3] + acc[4] + acc[5] + acc[6] + acc[7] + acc[8] + acc[9]);
-//
-//            }
-//            else {
-//                accNo = (acc[0] + acc[1] + acc[2] + acc[3] + acc[4] + acc[5] + acc[6] + acc[7] + acc[8] + acc[9]);
-//            }
 
-
-            BigInteger accountNumber = bankRepository.findHighestAccountNumber();
-            BigInteger addAcc = accountNumber.add(new BigInteger("1"));
-
+           String addAcc ;
+            if (accountRepository.findHighestAccountNumber() == null) {
+                addAcc=this.initialCustomerAccountNumber;
+            } else {
+                String accountNumber = accountRepository.findHighestAccountNumber();
+                long aLong = Long.parseLong(accountNumber);
+                long pnum = aLong + 1;
+                addAcc = String.valueOf(pnum);
+            }
             Account account = Account.builder()
                     .user(saveUser)
-                    .accountNumber(addAcc)
+                    .accountNumber( addAcc)
                     .description(description)
                     .openingBalance(openingBalance)
                     .accType(accType)
                     .build();
-
             List<Account> accounts = new ArrayList<>();
             accounts.add(account);
 
@@ -115,3 +105,19 @@ public class AuthService implements IAuthService {
     }
 
 }
+
+//            Random random = new Random();
+//            int accountNumber;
+//            String accNo;
+//            String acc[]=new String[10];
+//            for (int i=0;i<10;i++){
+//                accountNumber=random.nextInt(10);
+//                acc[i]=Integer.toString(accountNumber);
+//            }
+//            if(acc[0].equals(0)){
+//                accNo = ((acc[0]+1) + acc[1] + acc[2] + acc[3] + acc[4] + acc[5] + acc[6] + acc[7] + acc[8] + acc[9]);
+//
+//            }
+//            else {
+//                accNo = (acc[0] + acc[1] + acc[2] + acc[3] + acc[4] + acc[5] + acc[6] + acc[7] + acc[8] + acc[9]);
+//            }
